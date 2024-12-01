@@ -12,6 +12,10 @@ public class SalesAnalysisController {
     @Autowired
     private ReportService reportService;
 
+    public SalesAnalysisController(ReportService reportService) {
+        this.reportService = reportService;
+    }
+    
     @GetMapping("/generate-report")
     public String generateReport() {
         reportService.generateReport();
