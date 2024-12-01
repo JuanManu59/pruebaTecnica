@@ -1,13 +1,21 @@
-package model;
+package com.example.sales_analysis.model;
 
 import java.math.BigDecimal;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class SaleItem {
+	@Id
     private String itemId;
     private Integer quantity;
-    private BigDecimal price;
+    private double price;
     
-    public SaleItem(String itemId, Integer quantity, BigDecimal price) {
+    public SaleItem() {
+	}
+    
+    public SaleItem(String itemId, Integer quantity, double price) {
 		super();
 		this.itemId = itemId;
 		this.quantity = quantity;
@@ -26,10 +34,10 @@ public class SaleItem {
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
-	public BigDecimal getPrice() {
+	public double getPrice() {
 		return price;
 	}
-	public void setPrice(BigDecimal price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 }

@@ -1,14 +1,15 @@
-package service;
+package com.example.sales_analysis.service;
 
-import model.Sale;
-import model.Salesperson;
-import model.SaleItem;
-
-import repository.CustomerRepository;
-import repository.SaleRepository;
-import repository.SalespersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
+import com.example.sales_analysis.model.Sale;
+import com.example.sales_analysis.model.SaleItem;
+import com.example.sales_analysis.model.Salesperson;
+import com.example.sales_analysis.repository.CustomerRepository;
+import com.example.sales_analysis.repository.SaleRepository;
+import com.example.sales_analysis.repository.SalespersonRepository;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -31,13 +32,14 @@ public class ReportService {
     @Autowired
     private SaleRepository saleRepository;
     
+    @Scheduled(fixedRate = 10000)
     public void generateReport() {
         // 1. Número de clientes
         long numberOfCustomers = customerRepository.count();
 
         // 2. Número de vendedores
         long numberOfSalespeople = salespersonRepository.count();
-
+/*
         // 3. ID de la venta más cara
         Optional<Sale> mostExpensiveSale = saleRepository.findAll().stream()
                 .max(Comparator.comparing(this::calculateTotalSaleValue));
@@ -45,18 +47,38 @@ public class ReportService {
         // 4. Peor vendedor
         Optional<Salesperson> worstSalesperson = salespersonRepository.findAll().stream()
                 .min(Comparator.comparing(this::calculateTotalSalesBySalesperson));
-
+*/
         File outputFile = new File(System.getProperty("user.home") + "/data/out/report.txt");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
             writer.write("Number of customers: " + numberOfCustomers + "\n");
             writer.write("Number of salespeople: " + numberOfSalespeople + "\n");
-            writer.write("ID of the most expensive sale: " + mostExpensiveSale + "\n");
-            writer.write("Worst salesperson: " + worstSalesperson + "\n");
+ /*           writer.write("ID of the most expensive sale: " + mostExpensiveSale + "\n");
+            writer.write("Worst salesperson: " + worstSalesperson + "\n");*/
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+    /*
+    // Método para obtener la venta más cara
+    public String findMostExpensiveSale() {
+        List<Sale> sales = saleRepository.findAll();  // Obtener todas las ventas
 
+        String mostExpensiveSaleId = null;
+        double maxSaleValue = 0;
+
+        // Iterar sobre las ventas y calcular el valor total de cada una
+        for (Sale sale : sales) {
+            double saleValue = sale.calculateTotalValue();
+            if (saleValue > maxSaleValue) {
+                maxSaleValue = saleValue;
+                mostExpensiveSaleId = sale.getId();
+            }
+        }
+
+        return mostExpensiveSaleId;
+    }
+    
+    //usar lo de jpa mejor 
     // Método para calcular el valor total de una venta
     private BigDecimal calculateTotalSaleValue(Sale sale) {
         return sale.getItems().stream()
@@ -70,5 +92,5 @@ public class ReportService {
         return salesBySalesperson.stream()
                 .map(this::calculateTotalSaleValue)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
+    }*/
 }

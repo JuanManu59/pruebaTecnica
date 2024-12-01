@@ -1,4 +1,4 @@
-package model;
+package com.example.sales_analysis.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -10,6 +10,9 @@ public class Customer {
     private String name;
     private String business;
 
+    public Customer() {
+    }
+    
     public Customer(String id, String name, String business) {
 		super();
 		this.id = id;

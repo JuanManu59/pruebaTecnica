@@ -1,4 +1,4 @@
-package model;
+package com.example.sales_analysis.model;
 
 import java.util.List;
 
@@ -13,6 +13,9 @@ public class Sale {
     @ElementCollection
     private List<SaleItem> items;
     private String salesmanName;
+
+	public Sale() {
+	}
 
 	public Sale(String id, List<SaleItem> items, String salesmanName) {
 		super();

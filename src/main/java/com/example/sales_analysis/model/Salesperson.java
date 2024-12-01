@@ -1,4 +1,4 @@
-package model;
+package com.example.sales_analysis.model;
 
 import java.math.BigDecimal;
 
@@ -11,6 +11,9 @@ public class Salesperson {
     private String id;
     private String name;
     private BigDecimal salary;
+    
+    public Salesperson() {
+    }
     
     public Salesperson(String id, String name, BigDecimal salary) {
     	super();
