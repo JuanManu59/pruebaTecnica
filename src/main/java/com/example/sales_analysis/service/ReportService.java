@@ -39,11 +39,10 @@ public class ReportService {
 
         // 2. Número de vendedores
         long numberOfSalespeople = salespersonRepository.count();
-/*
         // 3. ID de la venta más cara
-        Optional<Sale> mostExpensiveSale = saleRepository.findAll().stream()
-                .max(Comparator.comparing(this::calculateTotalSaleValue));
+        //String mostExpensiveSale = findMostExpensiveSale();
 
+        /*
         // 4. Peor vendedor
         Optional<Salesperson> worstSalesperson = salespersonRepository.findAll().stream()
                 .min(Comparator.comparing(this::calculateTotalSalesBySalesperson));
@@ -58,25 +57,25 @@ public class ReportService {
             e.printStackTrace();
         }
     }
-    /*
     // Método para obtener la venta más cara
     public String findMostExpensiveSale() {
-        List<Sale> sales = saleRepository.findAll();  // Obtener todas las ventas
-
-        String mostExpensiveSaleId = null;
-        double maxSaleValue = 0;
-
-        // Iterar sobre las ventas y calcular el valor total de cada una
-        for (Sale sale : sales) {
-            double saleValue = sale.calculateTotalValue();
-            if (saleValue > maxSaleValue) {
-                maxSaleValue = saleValue;
-                mostExpensiveSaleId = sale.getId();
-            }
-        }
-
-        return mostExpensiveSaleId;
+    	List<Sale> sales = saleRepository.findAll();  // Obtener todas las ventas
+    	
+    	String mostExpensiveSaleId = null;
+    	double maxSaleValue = 0;
+    	
+    	// Iterar sobre las ventas y calcular el valor total de cada una
+    	for (Sale sale : sales) {
+    		double saleValue = sale.calculateTotalValue();
+    		if (saleValue > maxSaleValue) {
+    			maxSaleValue = saleValue;
+    			mostExpensiveSaleId = sale.getId();
+    		}
+    	}
+    	
+    	return mostExpensiveSaleId;
     }
+    /*
     
     //usar lo de jpa mejor 
     // Método para calcular el valor total de una venta

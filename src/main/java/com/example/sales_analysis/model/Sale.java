@@ -2,15 +2,18 @@ package com.example.sales_analysis.model;
 
 import java.util.List;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 
 @Entity
 public class Sale {
     @Id
     private String id;
     @ElementCollection
+    @CollectionTable(name = "sale_items", joinColumns = @JoinColumn(name = "sale_id"))
     private List<SaleItem> items;
     private String salesmanName;
 
@@ -42,4 +45,12 @@ public class Sale {
 	public void setSalesmanName(String salesmanName) {
 		this.salesmanName = salesmanName;
 	}
+	
+    public double calculateTotalValue() {
+        double totalValue = 0;
+        for (SaleItem item : items) {
+            totalValue += item.getQuantity() * item.getPrice();
+        }
+        return totalValue;
+    }
 }

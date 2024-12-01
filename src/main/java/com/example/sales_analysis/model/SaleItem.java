@@ -1,13 +1,9 @@
 package com.example.sales_analysis.model;
 
-import java.math.BigDecimal;
+import jakarta.persistence.Embeddable;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-
-@Entity
+@Embeddable
 public class SaleItem {
-	@Id
     private String itemId;
     private Integer quantity;
     private double price;
@@ -40,4 +36,8 @@ public class SaleItem {
 	public void setPrice(double price) {
 		this.price = price;
 	}
+	
+	public double getTotal() {
+        return price * quantity;
+    }
 }

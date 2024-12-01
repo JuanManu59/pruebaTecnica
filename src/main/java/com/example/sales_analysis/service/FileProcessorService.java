@@ -25,7 +25,6 @@ import com.example.sales_analysis.model.Sale;
 import com.example.sales_analysis.model.SaleItem;
 import com.example.sales_analysis.model.Salesperson;
 import com.example.sales_analysis.repository.CustomerRepository;
-import com.example.sales_analysis.repository.ItemRepository;
 import com.example.sales_analysis.repository.SaleRepository;
 import com.example.sales_analysis.repository.SalespersonRepository;
 
@@ -42,15 +41,12 @@ public class FileProcessorService {
 
     @Autowired
     private SaleRepository saleRepository;
-
-    @Autowired
-    private ItemRepository itemRepository;
     
     @Autowired
     private ReportService reportService;
     
     @Scheduled(fixedRate = 10000)
-    public void processFiles1() {
+    public void processFiles() {
     	
     	String inputDirectory = System.getProperty("user.home") + "/data/in";
 
@@ -91,32 +87,20 @@ public class FileProcessorService {
                 customerRepository.save(customer);
                 break;
             case "003":
-            	processSale(parts);
+            	Sale sale = parseSale(parts);
+            	saleRepository.save(sale);
                 break;
         }
     }
     
-    private void processSale(String[] parts) {
-        String saleId = parts[1];
-        String itemsData = parts[2].replace("[", "").replace("]", ""); 
-        String salesmanName = parts[3];
-
-        List<SaleItem> items = Arrays.stream(itemsData.split(","))
-            .map(item -> {
-                String[] itemParts = item.split("-");
-                
-                SaleItem newSaleItem =new SaleItem(
-                    itemParts[0], // Item ID
-                    Integer.parseInt(itemParts[1]), // Cantidad
-                    Double.parseDouble(itemParts[2]) // Precio
-                );
-                itemRepository.save(newSaleItem);                
-                return newSaleItem;
-            }).collect(Collectors.toList());
-
-        Sale sale = new Sale(saleId, items,salesmanName);
-
-        saleRepository.save(sale);
+    private Sale parseSale(String[] parts) {
+        List<SaleItem> items = Arrays.stream(parts[2]
+                .replace("[", "").replace("]", "").split(","))
+                .map(item -> {
+                    String[] itemData = item.split("-");
+                    return new SaleItem(itemData[0], Integer.parseInt(itemData[1]), Double.parseDouble(itemData[2]));
+                }).collect(Collectors.toList());
+        return new Sale(parts[1], items, parts[3]);
     }
 
 }
