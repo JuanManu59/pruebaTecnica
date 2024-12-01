@@ -1,8 +1,10 @@
 package com.example.sales_analysis.model;
 
 import jakarta.persistence.Embeddable;
+import lombok.Data;
 
 @Embeddable
+@Data
 public class SaleItem {
     private String itemId;
     private Integer quantity;

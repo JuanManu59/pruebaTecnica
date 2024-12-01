@@ -5,14 +5,17 @@ import java.util.List;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import lombok.Data;
 
 @Entity
+@Data
 public class Sale {
     @Id
     private String id;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "sale_items", joinColumns = @JoinColumn(name = "sale_id"))
     private List<SaleItem> items;
     private String salesmanName;
@@ -49,7 +52,7 @@ public class Sale {
     public double calculateTotalValue() {
         double totalValue = 0;
         for (SaleItem item : items) {
-            totalValue += item.getQuantity() * item.getPrice();
+            totalValue += item.getTotal();
         }
         return totalValue;
     }
